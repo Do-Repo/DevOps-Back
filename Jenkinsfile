@@ -33,10 +33,17 @@ pipeline {
                 }
             }
         }
-    }
 
-    post {
-        always {
+        stage('Deploy to Server') {
+            steps {
+                script {
+                    // Copy the built JAR file to the server
+                    sh 'scp target/your-spring-boot-app.jar user@http://192.168.33.10:8080/:/path/to/deployment/'
+
+              
+                }
+            }
         }
     }
+
 }
