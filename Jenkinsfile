@@ -12,6 +12,7 @@ pipeline {
         stage('Build and Test') {
             steps {
                 script {
+                    sh 'mvn test'
                     sh 'mvn clean'
                 }
             }
