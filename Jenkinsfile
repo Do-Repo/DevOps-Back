@@ -1,6 +1,10 @@
 pipeline {
     agent any
-
+    environment { 
+        registry = "yasineromdhane/projetdevops" 
+        registryCredential = 'yasineromdhane' 
+        dockerImage = '' 
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -18,33 +22,24 @@ pipeline {
             }
         }
 
-        // stage('Code Coverage Analysis') {
-        //     steps {
-        //         script {
-        //             // Add steps to publish JaCoCo reports
-        //             // For example, using the Publish HTML Jenkins plugin
-        //             publishHTML([
-        //                 allowMissing: false,
-        //                 alwaysLinkToLastBuild: true,
-        //                 keepAll: true,
-        //                 reportDir: 'target/site/jacoco',
-        //                 reportFiles: 'index.html',
-        //                 reportName: 'JaCoCo Code Coverage'
-        //             ])
-        //         }
-        //     }
-        // }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    dockerimage = docker.build registry + ":$BUILD_NUMBER"
+                }
+            }
+        }
 
-        // stage('Deploy to Server') {
-        //     steps {
-        //         script {
-        //             // Copy the built JAR file to the server
-        //             sh 'scp target/your-spring-boot-app.jar user@http://192.168.33.10:8080/:/path/to/deployment/'
+        stage('Deploy our image') { 
+            steps { 
+                script { 
+                    docker.withRegistry( '', registryCredential ) { 
+                        dockerImage.push() 
+                    }
+                } 
+            }
+        } 
 
-              
-        //         }
-        //     }
-        // }
     }
 
 }
