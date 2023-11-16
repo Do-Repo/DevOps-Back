@@ -4,7 +4,7 @@ pipeline {
         registry = "yasineromdhane/projetdevops" 
         registryCredential = 'yasineromdhane' 
         dockerImage = '' 
-    }
+    }git
     stages {
         stage('Checkout') {
             steps {
