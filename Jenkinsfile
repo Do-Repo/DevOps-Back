@@ -53,6 +53,19 @@ pipeline {
             }
         }
 
+        post {
+            success {
+                emailext body: 'Pipeline succeeded!',
+                         subject: 'Jenkins Pipeline Success',
+                         to: 'yasine.romdhane@esprit.tn'
+            }
+            failure {
+                emailext body: 'Pipeline failed!',
+                         subject: 'Jenkins Pipeline Failure',
+                         to: 'yasine.romdhane@esprit.tn'
+            }
+    }
+
     }
 
 }
